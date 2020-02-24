@@ -9,8 +9,8 @@ correctPassword = False
 while True:
     current = input("Write: ")[0]
     if current == "C":
-        currentAttempt = ""
         continue
+        currentAttempt = ""
     elif current == "*":
         changePassword = True
         correctPassword = False
