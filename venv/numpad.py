@@ -1,4 +1,5 @@
 import Rpi.GPIO as GPIO
+import time
 
 GPIO.setmode(GPIO.BOARD)
 
@@ -24,6 +25,7 @@ try:
             for i in range(4) :
                 if GPIO.input(ROW[i]) == 0:
                     print(NUMPAD[i][j])
+                    time.sleep(0.3)
                     while(GPIO.input(ROW[i]) == 0):
                         pass
 

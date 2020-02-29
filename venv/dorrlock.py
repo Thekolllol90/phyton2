@@ -1,4 +1,5 @@
 import Rpi.GPIO as GPIO
+import time
 
 GPIO.setmode(GPIO.BOARD)
 
@@ -39,7 +40,8 @@ def numpadInput():
                 GPIO.output(COL[j], 0)
                 for i in range(4):
                     if GPIO.input(ROW[i]) == 0:
-                        print(NUMPAD[i][j])
+                        return NUMPAD[i][j]
+                        time.sleep(0.3)
                         while (GPIO.input(ROW[i]) == 0):
                             pass
 
@@ -49,7 +51,8 @@ def numpadInput():
         GPIO.cleanup()
 
 while True:
-    current = input("Write: ")[0]
+    numpadGPIO()
+    current = numpadInput()
     if current == "C":
         continue
         currentAttempt = ""
@@ -77,11 +80,7 @@ while True:
 
                 try:
                     while True:
-                        p.changeDutyCycle(7.5)
-                        time.sleep(1)
                         p.changeDutyCycle(12.5)
-                        time.sleep(1)
-                        p.changeDutyCycle(2.5)
                         time.sleep(1)
                 except KeyboardInterrupt:
                     p.stop()
