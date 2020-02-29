@@ -1,3 +1,4 @@
+
 import Rpi.GPIO as GPIO
 import time
 
@@ -11,6 +12,13 @@ NUMPAD = [[1, 2, 3, 'A'],
 ROW = [7, 11, 13, 15]
 COL = [12, 16, 18, 22]
 
+for  j in range(4) :
+    GPIO.setup(COL[j], GPIO.OUT)
+    GPIO.output(COL[j], 1)
+
+for i in range(4) :
+    GPIO.setup(ROW[i], GPIO.IN, pull_up_down = GPIO.PUD_UP)
+
 password = "12345"
 passwordLength = 5
 
@@ -19,40 +27,8 @@ currentAttempt = ""
 changePassword = False
 correctPassword = False
 
-def servoGPIO():
-    GPIO.setup(7, GPIO.OUT)
-
-    p = GPIO.PWM(7, 50)
-    p.start(7.5)
-
-def numpadGPIO():
-    for j in range(4):
-        GPIO.setup(COL[j], GPIO.OUT)
-        GPIO.output(COL[j], 1)
-
-    for i in range(4):
-        GPIO.setup(ROW[i], GPIO.IN, pull_up_down = GPIO.PUD_UP)
-
-def numpadInput():
-    try:
-        while (True):
-            for j in range(4):
-                GPIO.output(COL[j], 0)
-                for i in range(4):
-                    if GPIO.input(ROW[i]) == 0:
-                        return NUMPAD[i][j]
-                        time.sleep(0.3)
-                        while (GPIO.input(ROW[i]) == 0):
-                            pass
-
-                GPIO.output(COL[j], 1)
-
-    except KeyboardInterrupt:
-        GPIO.cleanup()
-
 while True:
-    numpadGPIO()
-    current = numpadInput()
+    current = input("Write: ")[0]
     if current == "C":
         continue
         currentAttempt = ""
@@ -77,16 +53,6 @@ while True:
         if len(currentAttempt) == passwordLength:
             if currentAttempt == password:
                 print("Correct")
-                servoGPIO()
-
-                try:
-                    while True:
-                        p.changeDutyCycle(12.5)
-                        time.sleep(1)
-                except KeyboardInterrupt:
-                    p.stop()
-                    GPIO.cleanup()
-
                 currentAttempt = ""
                 correctPassword = True
             else:
