@@ -43,7 +43,7 @@ def numpadInput():
 
 
 while True:
-    current = input("Write: ")[0]
+    current = numpadInput()
     if current == "C":
         continue
         currentAttempt = ""

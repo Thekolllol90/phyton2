@@ -12,13 +12,6 @@ NUMPAD = [[1, 2, 3, 'A'],
 ROW = [7, 11, 13, 15]
 COL = [12, 16, 18, 22]
 
-for  j in range(4) :
-    GPIO.setup(COL[j], GPIO.OUT)
-    GPIO.output(COL[j], 1)
-
-for i in range(4) :
-    GPIO.setup(ROW[i], GPIO.IN, pull_up_down = GPIO.PUD_UP)
-
 password = "12345"
 passwordLength = 5
 
@@ -27,8 +20,30 @@ currentAttempt = ""
 changePassword = False
 correctPassword = False
 
+for  j in range(4) :
+    GPIO.setup(COL[j], GPIO.OUT)
+    GPIO.output(COL[j], 1)
+
+for i in range(4) :
+    GPIO.setup(ROW[i], GPIO.IN, pull_up_down = GPIO.PUD_UP)
+
+def numpadInput():
+    while (True):
+        for j in range(4):
+            GPIO.output(COL[j], 0)
+            for i in range(4):
+                if GPIO.input(ROW[i]) == 0:
+                    return NUMPAD[i][j]
+                    time.sleep(0.3)
+                    #GPIO.cleanup()
+                    while (GPIO.input(ROW[i]) == 0):
+                        pass
+
+            GPIO.output(COL[j], 1)
+
+
 while True:
-    current = input("Write: ")[0]
+    current = numpadInput()
     if current == "C":
         continue
         currentAttempt = ""
