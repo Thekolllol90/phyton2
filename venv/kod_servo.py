@@ -11,6 +11,28 @@ currentAttempt = ""
 changePassword = False
 correctPassword = False
 
+def open():
+    GPIO.setup(7, GPIO.OUT)
+
+    p = GPIO.PWM(7, 50)
+
+    p.start(12.5)
+    time.sleep(1)
+
+    p.stop()
+    GPIO.cleanup()
+
+def close():
+    GPIO.setup(7, GPIO.OUT)
+
+    p = GPIO.PWM(7, 50)
+
+    p.start(2.5)
+    time.sleep(1)
+
+    p.stop()
+    GPIO.cleanup()
+
 while True:
     current = input("Write: ")[0]
     if current == "C":
@@ -37,16 +59,6 @@ while True:
         if len(currentAttempt) == passwordLength:
             if currentAttempt == password:
                 print("Correct")
-                GPIO.setup(7, GPIO.OUT)
-
-                p = GPIO.PWM(7, 50)
-
-                p.start(12.5)
-                time.sleep(1)
-
-                p.stop()
-                GPIO.cleanup()
-
                 currentAttempt = ""
                 correctPassword = True
             else:
