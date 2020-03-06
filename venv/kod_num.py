@@ -20,26 +20,25 @@ currentAttempt = ""
 changePassword = False
 correctPassword = False
 
-for  j in range(4) :
-    GPIO.setup(COL[j], GPIO.OUT)
-    GPIO.output(COL[j], 1)
-
-for i in range(4) :
-    GPIO.setup(ROW[i], GPIO.IN, pull_up_down = GPIO.PUD_UP)
-
 def numpadInput():
-    while (True):
-        for j in range(4):
-            GPIO.output(COL[j], 0)
-            for i in range(4):
-                if GPIO.input(ROW[i]) == 0:
-                    return NUMPAD[i][j]
-                    time.sleep(0.3)
-                    #GPIO.cleanup()
-                    while (GPIO.input(ROW[i]) == 0):
-                        pass
+    for j in range(4):
+        GPIO.setup(COL[j], GPIO.OUT)
+        GPIO.output(COL[j], 1)
 
-            GPIO.output(COL[j], 1)
+    for i in range(4):
+        GPIO.setup(ROW[i], GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+    for j in range(4):
+        GPIO.output(COL[j], 0)
+        for i in range(4):
+            if GPIO.input(ROW[i]) == 0:
+                time.sleep(0.3)
+                return str(NUMPAD[i][j])
+                #GPIO.cleanup()
+                while (GPIO.input(ROW[i]) == 0):
+                    pass
+
+        GPIO.output(COL[j], 1)
 
 
 while True:
