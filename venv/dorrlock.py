@@ -40,8 +40,8 @@ def numpadInput():
                 GPIO.output(COL[j], 0)
                 for i in range(4):
                     if GPIO.input(ROW[i]) == 0:
-                        return NUMPAD[i][j]
                         time.sleep(0.3)
+                        return NUMPAD[i][j]
                         while (GPIO.input(ROW[i]) == 0):
                             pass
 
