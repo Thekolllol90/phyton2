@@ -59,9 +59,11 @@ while True:
         if len(currentAttempt) == passwordLength:
             if currentAttempt == password:
                 print("Correct")
+                open()
                 currentAttempt = ""
                 correctPassword = True
             else:
                 print("Incorrect")
+                close()
                 currentAttempt = ""
                 correctPassword = False
