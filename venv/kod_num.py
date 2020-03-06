@@ -32,9 +32,9 @@ def numpadInput():
         GPIO.output(COL[j], 0)
         for i in range(4):
             if GPIO.input(ROW[i]) == 0:
+                GPIO.cleanup()
                 time.sleep(0.3)
                 return str(NUMPAD[i][j])
-                #GPIO.cleanup()
                 while (GPIO.input(ROW[i]) == 0):
                     pass
 
